@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frontline AI — AI Chat Assistant for Local Businesses</title>
+<meta name="description" content="We set up an AI assistant that answers customer questions and captures leads 24/7. One-time $199 setup. No monthly fees.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#ffffff;--bg2:#f7f7f7;--border:#e8e8e8;
+  --text:#111111;--sub:#555555;--hint:#999999;
+  --user-bg:#111111;--user-text:#ffffff;--ai-bg:#f2f2f2;
+  --radius:10px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.container{max-width:640px;margin:0 auto;padding:0 24px}
+
+nav{border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(255,255,255,0.96);backdrop-filter:blur(8px);z-index:100}
+.nav-inner{max-width:640px;margin:0 auto;padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-size:15px;font-weight:500;color:var(--text)}
+.nav-btn{padding:7px 16px;border-radius:7px;background:var(--text);color:#fff;font-size:13px;font-weight:500;border:none;cursor:pointer;font-family:inherit;transition:opacity .15s}
+.nav-btn:hover{opacity:.8}
+
+.hero{padding:60px 0 48px}
+.eyebrow{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--hint);margin-bottom:16px}
+h1{font-size:36px;font-weight:500;letter-spacing:-.025em;line-height:1.15;margin-bottom:18px}
+.hero-sub{font-size:16px;color:var(--sub);line-height:1.65;margin-bottom:28px;max-width:500px}
+.hero-btns{display:flex;gap:10px;flex-wrap:wrap}
+.btn-dark{padding:11px 22px;border-radius:8px;background:var(--text);color:#fff;font-size:14px;font-weight:500;border:none;cursor:pointer;font-family:inherit;transition:opacity .15s}
+.btn-dark:hover{opacity:.8}
+.btn-light{padding:11px 22px;border-radius:8px;background:none;color:var(--text);font-size:14px;border:1px solid var(--border);cursor:pointer;font-family:inherit;transition:border-color .15s}
+.btn-light:hover{border-color:#999}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin:48px 0}
+.stat{padding:18px 16px;border-right:1px solid var(--border);text-align:center}
+.stat:last-child{border-right:none}
+.stat-n{font-size:20px;font-weight:500;line-height:1;margin-bottom:4px}
+.stat-l{font-size:11px;color:var(--hint)}
+
+.section{padding:48px 0;border-top:1px solid var(--border)}
+.section-eyebrow{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--hint);margin-bottom:10px}
+.section-title{font-size:22px;font-weight:500;letter-spacing:-.015em;margin-bottom:10px}
+.section-sub{font-size:14px;color:var(--sub);line-height:1.65;margin-bottom:28px}
+
+.demo-box{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.demo-topbar{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg2)}
+.demo-bizname{font-size:13px;font-weight:500}
+.demo-live{display:flex;align-items:center;gap:5px;font-size:11px;color:#16a34a}
+.demo-live-dot{width:6px;height:6px;border-radius:50%;background:#22c55e}
+.demo-tabs{display:flex;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;background:var(--bg2)}
+.demo-tabs::-webkit-scrollbar{display:none}
+.dtab{padding:9px 14px;font-size:12px;color:var(--hint);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;margin-bottom:-1px;font-family:inherit;transition:color .15s}
+.dtab:hover{color:var(--sub)}
+.dtab.on{color:var(--text);border-bottom-color:var(--text);font-weight:500}
+.chat-area{height:280px;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth;background:var(--bg)}
+.chat-area::-webkit-scrollbar{width:3px}
+.chat-area::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.cm{display:flex;flex-direction:column;max-width:76%}
+.cm.ai{align-self:flex-start}
+.cm.user{align-self:flex-end}
+.cl{font-size:11px;color:var(--hint);margin-bottom:3px;padding:0 2px}
+.cm.user .cl{text-align:right}
+.cb{padding:9px 13px;border-radius:13px;font-size:13px;line-height:1.6;background:var(--ai-bg);color:var(--text);border-bottom-left-radius:3px}
+.cm.user .cb{background:var(--user-bg);color:var(--user-text);border-bottom-left-radius:13px;border-bottom-right-radius:3px}
+.typing-row{display:flex;gap:4px;padding:10px 13px;background:var(--ai-bg);border-radius:13px;border-bottom-left-radius:3px;width:fit-content;align-items:center}
+.td{width:5px;height:5px;border-radius:50%;background:var(--hint);animation:bl 1.2s infinite}
+.td:nth-child(2){animation-delay:.2s}.td:nth-child(3){animation-delay:.4s}
+@keyframes bl{0%,100%{opacity:.3;transform:scale(.85)}50%{opacity:1;transform:scale(1)}}
+.sugs-row{padding:8px 14px;display:flex;gap:6px;flex-wrap:wrap;border-top:1px solid var(--border);background:var(--bg2)}
+.sug{padding:5px 11px;border-radius:100px;border:1px solid var(--border);font-size:12px;color:var(--sub);background:none;cursor:pointer;font-family:inherit;transition:border-color .15s,color .15s}
+.sug:hover{border-color:#999;color:var(--text)}
+.chat-input{display:flex;align-items:flex-end;gap:8px;padding:10px 12px;border-top:1px solid var(--border);background:var(--bg)}
+.chat-input textarea{flex:1;border:1px solid var(--border);border-radius:7px;padding:7px 10px;font-size:13px;font-family:inherit;color:var(--text);background:var(--bg);resize:none;min-height:34px;max-height:80px;outline:none;line-height:1.5;transition:border-color .2s}
+.chat-input textarea:focus{border-color:#999}
+.chat-input textarea::placeholder{color:var(--hint)}
+.send-btn{width:32px;height:32px;border-radius:7px;background:var(--text);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s}
+.send-btn:hover{opacity:.75}
+.send-btn:disabled{opacity:.25;cursor:not-allowed}
+.rate-msg{padding:10px 14px;font-size:12px;color:var(--sub);text-align:center;border-top:1px solid var(--border);background:var(--bg2);display:none}
+
+.steps{display:flex;flex-direction:column}
+.step{display:flex;gap:20px;padding:16px 0;border-bottom:1px solid var(--border)}
+.step:first-child{border-top:1px solid var(--border)}
+.step-num{font-size:12px;color:var(--hint);min-width:22px;padding-top:2px;font-weight:500}
+.step-title{font-size:14px;font-weight:500;margin-bottom:3px}
+.step-desc{font-size:13px;color:var(--sub);line-height:1.55}
+
+.price-card{border:1px solid var(--border);border-radius:var(--radius);padding:28px;max-width:360px}
+.price-tag{font-size:40px;font-weight:500;letter-spacing:-.03em;margin-bottom:2px}
+.price-period{font-size:13px;color:var(--hint);margin-bottom:6px}
+.price-desc{font-size:14px;color:var(--sub);margin-bottom:24px;line-height:1.55}
+.price-features{display:flex;flex-direction:column;gap:9px;margin-bottom:24px}
+.pf{display:flex;gap:10px;font-size:13px;color:var(--sub);align-items:flex-start}
+.pf-check{color:var(--text);flex-shrink:0;margin-top:1px;font-size:12px}
+.price-btn{width:100%;padding:11px;border-radius:8px;background:var(--text);color:#fff;font-size:14px;font-weight:500;font-family:inherit;border:none;cursor:pointer;transition:opacity .15s}
+.price-btn:hover{opacity:.8}
+.price-note{font-size:12px;color:var(--hint);margin-top:12px;text-align:center}
+
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-item:first-child{border-top:1px solid var(--border)}
+.faq-q{padding:15px 0;font-size:14px;font-weight:500;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;user-select:none}
+.faq-icon{font-size:18px;color:var(--hint);transition:transform .2s;flex-shrink:0;line-height:1}
+.faq-a{font-size:13px;color:var(--sub);line-height:1.65;padding-bottom:15px;display:none}
+.faq-item.open .faq-a{display:block}
+.faq-item.open .faq-icon{transform:rotate(45deg)}
+
+.contact-box{border:1px solid var(--border);border-radius:var(--radius);padding:28px}
+.contact-title{font-size:18px;font-weight:500;margin-bottom:6px}
+.contact-sub{font-size:13px;color:var(--sub);margin-bottom:22px;line-height:1.55}
+.field{margin-bottom:14px}
+.field label{font-size:12px;color:var(--sub);display:block;margin-bottom:5px;font-weight:500}
+.field input,.field select,.field textarea{width:100%;border:1px solid var(--border);border-radius:7px;padding:9px 12px;font-size:13px;font-family:inherit;color:var(--text);background:var(--bg);outline:none;transition:border-color .2s;line-height:1.5}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#999}
+.field textarea{resize:vertical;min-height:80px}
+.field select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+.form-btn{width:100%;padding:11px;border-radius:8px;background:var(--text);color:#fff;font-size:14px;font-weight:500;font-family:inherit;border:none;cursor:pointer;transition:opacity .15s;margin-top:4px}
+.form-btn:hover{opacity:.8}
+.form-btn:disabled{opacity:.35;cursor:not-allowed}
+.fsuccess{display:none;margin-top:14px;padding:12px;border-radius:7px;background:#f0fdf4;color:#16a34a;font-size:13px;text-align:center;border:1px solid #bbf7d0}
+
+.legal{padding:32px 0;border-top:1px solid var(--border)}
+.legal-title{font-size:13px;font-weight:500;margin-bottom:8px}
+.legal-text{font-size:12px;color:var(--hint);line-height:1.65}
+
+footer{border-top:1px solid var(--border);padding:28px 0;margin-top:0}
+.footer-inner{max-width:640px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.footer-logo{font-size:13px;font-weight:500}
+.footer-note{font-size:12px;color:var(--hint)}
+
+@media(max-width:520px){
+  h1{font-size:28px}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stats .stat:nth-child(2){border-right:none}
+  .stats .stat:nth-child(3){border-top:1px solid var(--border)}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <span class="nav-logo">Frontline AI</span>
+    <button class="nav-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get started</button>
+  </div>
+</nav>
+
+<div class="container">
+
+  <div class="hero">
+    <div class="eyebrow">AI Chat Assistant for Local Businesses</div>
+    <h1>Your business,<br>always available.</h1>
+    <p class="hero-sub">We set up an AI assistant that answers customer questions, captures leads, and handles booking requests 24/7 — so you never miss a customer while you're working.</p>
+    <div class="hero-btns">
+      <button class="btn-dark" onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">See live demo</button>
+      <button class="btn-light" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get a quote</button>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-n">24/7</div><div class="stat-l">Always on</div></div>
+    <div class="stat"><div class="stat-n">&lt;1 min</div><div class="stat-l">Response time</div></div>
+    <div class="stat"><div class="stat-n">$199</div><div class="stat-l">One-time fee</div></div>
+    <div class="stat"><div class="stat-n">48hr</div><div class="stat-l">Setup time</div></div>
+  </div>
+
+  <div class="section" id="demo">
+    <div class="section-eyebrow">Live demo</div>
+    <div class="section-title">Try it yourself</div>
+    <p class="section-sub">Select a business type and have a real conversation. This is exactly what your customers would experience.</p>
+    <div class="demo-box">
+      <div class="demo-topbar">
+        <span class="demo-bizname" id="dbizname">Status Cuts Barbershop</span>
+        <span class="demo-live"><span class="demo-live-dot"></span>Live AI</span>
+      </div>
+      <div class="demo-tabs">
+        <button class="dtab on" onclick="dgo('barber',this)">Barbershop</button>
+        <button class="dtab" onclick="dgo('salon',this)">Nail Salon</button>
+        <button class="dtab" onclick="dgo('hvac',this)">HVAC</button>
+        <button class="dtab" onclick="dgo('auto',this)">Auto Repair</button>
+        <button class="dtab" onclick="dgo('dental',this)">Dental</button>
+      </div>
+      <div class="chat-area" id="dchat"><div id="danc"></div></div>
+      <div class="sugs-row" id="dsugs"></div>
+      <div class="chat-input">
+        <textarea id="dinp" placeholder="Type a message..." rows="1" onkeydown="dhk(event)" oninput="drs(this)"></textarea>
+        <button class="send-btn" id="dsbtn" onclick="dsend()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+      <div class="rate-msg" id="rate-msg">You've reached the demo limit for today. <a href="#contact" style="color:var(--text);text-decoration:underline">Contact us</a> to get your own assistant set up.</div>
+    </div>
+  </div>
+
+  <div class="section" id="proof">
+    <div class="section-eyebrow">Real impact</div>
+    <div class="section-title">What this actually changes</div>
+    <p class="section-sub">Local service businesses lose more revenue to missed messages than almost anything else. Here's what changes when an assistant handles it.</p>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div style="border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
+        <div style="display:grid;grid-template-columns:1fr 1fr">
+          <div style="padding:18px;border-right:1px solid var(--border)">
+            <div style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--hint);margin-bottom:10px">Before</div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="font-size:13px;color:var(--sub);display:flex;gap:8px;align-items:flex-start"><span style="color:#ef4444;flex-shrink:0">✕</span>Customer messages go unanswered while you're working</div>
+              <div style="font-size:13px;color:var(--sub);display:flex;gap:8px;align-items:flex-start"><span style="color:#ef4444;flex-shrink:0">✕</span>Booking requests come in at 9pm with no one to respond</div>
+              <div style="font-size:13px;color:var(--sub);display:flex;gap:8px;align-items:flex-start"><span style="color:#ef4444;flex-shrink:0">✕</span>Same questions asked over and over taking up your time</div>
+              <div style="font-size:13px;color:var(--sub);display:flex;gap:8px;align-items:flex-start"><span style="color:#ef4444;flex-shrink:0">✕</span>Potential customers go to a competitor who responded first</div>
+            </div>
+          </div>
+          <div style="padding:18px">
+            <div style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--hint);margin-bottom:10px">After</div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="font-size:13px;color:var(--sub);display:flex;gap:8px;align-items:flex-start"><span style="color:#16a34a;flex-shrink:0">✓</span>Every message gets an instant response 24/7</div>
+              <div style="font-size:13px;color:var(--sub);display:flex;gap:8px;align-items:flex-start"><span style="color:#16a34a;flex-shrink:0">✓</span>Booking requests captured automatically while you sleep</div>
+              <div style="font-size:13px;color:var(--sub);display:flex;gap:8px;align-items:flex-start"><span style="color:#16a34a;flex-shrink:0">✓</span>Hours, prices, and FAQs handled without you</div>
+              <div style="font-size:13px;color:var(--sub);display:flex;gap:8px;align-items:flex-start"><span style="color:#16a34a;flex-shrink:0">✓</span>You get a summary of every conversation to follow up</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+        <div style="border:1px solid var(--border);border-radius:var(--radius);padding:16px">
+          <div style="font-size:20px;font-weight:500;margin-bottom:4px">8–12</div>
+          <div style="font-size:12px;color:var(--hint);line-height:1.5">messages missed per week by a typical busy barbershop</div>
+        </div>
+        <div style="border:1px solid var(--border);border-radius:var(--radius);padding:16px">
+          <div style="font-size:20px;font-weight:500;margin-bottom:4px">62%</div>
+          <div style="font-size:12px;color:var(--hint);line-height:1.5">of customers won't leave a voicemail — they just move on</div>
+        </div>
+        <div style="border:1px solid var(--border);border-radius:var(--radius);padding:16px">
+          <div style="font-size:20px;font-weight:500;margin-bottom:4px">&lt;1 min</div>
+          <div style="font-size:12px;color:var(--hint);line-height:1.5">average response time with an AI assistant running</div>
+        </div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:var(--radius);padding:20px;background:var(--bg2)">
+        <div style="font-size:13px;color:var(--sub);line-height:1.7;margin-bottom:12px">A nail salon in Lawrenceville was missing booking requests every weekend while techs were with clients. After setting up their assistant, every inquiry gets an instant response and customer contact info is captured automatically — even at midnight.</div>
+        <div style="font-size:13px;color:var(--sub);line-height:1.7">An HVAC company in Duluth was losing service calls to competitors simply because nobody answered during peak hours. Their assistant now handles the first response instantly and flags urgent jobs so a tech can call back within the hour.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="how">
+    <div class="section-eyebrow">How it works</div>
+    <div class="section-title">Up and running in 48 hours</div>
+    <p class="section-sub">We handle the entire setup. You answer a few questions about your business and we do the rest.</p>
+    <div class="steps">
+      <div class="step"><span class="step-num">01</span><div><div class="step-title">Tell us about your business</div><div class="step-desc">Hours, services, prices, and the questions customers ask most. Takes about 10 minutes over email.</div></div></div>
+      <div class="step"><span class="step-num">02</span><div><div class="step-title">We build your custom assistant</div><div class="step-desc">We configure the AI specifically for your business, test it, and make sure it sounds right before you see it.</div></div></div>
+      <div class="step"><span class="step-num">03</span><div><div class="step-title">We install it for you</div><div class="step-desc">One line of code on your website, or we add it to your Facebook page or Google Business profile. We walk you through every step.</div></div></div>
+      <div class="step"><span class="step-num">04</span><div><div class="step-title">Your assistant handles it from here</div><div class="step-desc">It answers questions, captures customer info, and sends you a summary of every conversation so you stay in the loop.</div></div></div>
+    </div>
+  </div>
+
+  <div class="section" id="pricing">
+    <div class="section-eyebrow">Pricing</div>
+    <div class="section-title">Simple and flat.</div>
+    <p class="section-sub">One setup fee. No monthly retainer from us, no hidden costs.</p>
+    <div class="price-card">
+      <div class="price-tag">$199</div>
+      <div class="price-period">one-time setup fee</div>
+      <div class="price-desc">Everything you need to start capturing customers you're currently missing.</div>
+      <div class="price-features">
+        <div class="pf"><span class="pf-check">✓</span>Custom AI assistant trained on your business</div>
+        <div class="pf"><span class="pf-check">✓</span>Answers FAQs, hours, pricing, and booking requests 24/7</div>
+        <div class="pf"><span class="pf-check">✓</span>Captures customer name and contact info automatically</div>
+        <div class="pf"><span class="pf-check">✓</span>Works on your website, Facebook page, or Google profile</div>
+        <div class="pf"><span class="pf-check">✓</span>Full setup and installation included</div>
+        <div class="pf"><span class="pf-check">✓</span>48-hour turnaround from when you send us your info</div>
+      </div>
+      <button class="price-btn" id="stripe-btn" onclick="window.open('PASTE_STRIPE_LINK_HERE','_blank')">Get started — $199</button>
+      <div class="price-note">Small AI usage cost of ~$5–10/mo billed directly by the provider, not by us.</div>
+    </div>
+  </div>
+
+  <div class="section" id="faq">
+    <div class="section-eyebrow">FAQ</div>
+    <div class="section-title">Common questions</div>
+    <div style="margin-top:20px">
+      <div class="faq-item"><div class="faq-q" onclick="ft(this)">Do I need a website to use this?<span class="faq-icon">+</span></div><div class="faq-a">No. The assistant can be added to your Facebook page, Google Business profile, or we can create a simple standalone page for it.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="ft(this)">What does "captures customer info" mean?<span class="faq-icon">+</span></div><div class="faq-a">When a customer chats, the assistant naturally collects their name and phone number or email. You get a summary so you can follow up directly.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="ft(this)">How long does setup actually take?<span class="faq-icon">+</span></div><div class="faq-a">48 hours from when you send us your business info. Most clients are live the same day or next day.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="ft(this)">What is the small monthly AI cost?<span class="faq-icon">+</span></div><div class="faq-a">The assistant runs on an AI platform that charges based on usage — typically $5 to $10 per month for a local business. This goes directly to the provider, not to us. We help you set it up.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="ft(this)">What if a customer asks something the AI doesn't know?<span class="faq-icon">+</span></div><div class="faq-a">It lets them know it will pass the question along, collects their contact info, and you get notified. No customer gets left without a response.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="ft(this)">What kinds of businesses is this for?<span class="faq-icon">+</span></div><div class="faq-a">Any local service business that gets messages or questions — barbershops, salons, HVAC, auto repair, dental, contractors, restaurants. If customers ask about your hours, prices, or availability, this is for you.</div></div>
+    </div>
+  </div>
+
+  <div class="section" id="contact">
+    <div class="section-eyebrow">Get started</div>
+    <div class="contact-box">
+      <div class="contact-title">Set up your assistant</div>
+      <div class="contact-sub">Fill this out and we'll reach out same day, usually within the hour. Setup takes 48 hours once we have your business info.</div>
+      <form id="lead-form" onsubmit="submitForm(event)" action="https://formspree.io/f/xjgpyvdz" method="POST">
+        <div class="field"><label>Your name *</label><input type="text" name="name" id="f-name" placeholder="John Smith" required></div>
+        <div class="field"><label>Business name *</label><input type="text" name="business" id="f-biz" placeholder="Status Cuts Barbershop" required></div>
+        <div class="field"><label>Best way to reach you *</label><input type="text" name="contact" id="f-contact" placeholder="Phone number or email" required></div>
+        <div class="field"><label>Business type *</label>
+          <select name="type" id="f-type" required>
+            <option value="">Select one...</option>
+            <option>Barbershop</option><option>Nail salon</option><option>Hair salon</option>
+            <option>HVAC</option><option>Auto repair</option><option>Dental office</option>
+            <option>Contractor / plumber</option><option>Restaurant</option><option>Other</option>
+          </select>
+        </div>
+        <div class="field"><label>Do you have a website? (optional)</label><input type="text" name="website" id="f-web" placeholder="www.yourbusiness.com or Facebook page link"></div>
+        <div class="field"><label>Anything else? (optional)</label><textarea name="message" id="f-msg" placeholder="Questions or anything you want us to know..."></textarea></div>
+        <button type="submit" class="form-btn" id="form-btn">Send — we'll reach out same day, usually within the hour</button>
+      </form>
+      <div class="fsuccess" id="fsuccess">Got it! We'll reach out same day, usually within the hour.</div>
+    </div>
+  </div>
+
+  <div class="legal">
+    <div class="legal-title">Privacy & Terms</div>
+    <div class="legal-text">Information submitted through this form is used only to contact you about setting up your AI assistant. We do not sell or share your information with third parties. The live demo on this page uses AI technology to simulate how your assistant would work. Conversations in the demo are not stored or reviewed. By submitting the contact form you agree to be contacted by Frontline AI regarding your inquiry. Service is provided on a one-time fee basis with no ongoing contract required.</div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <span class="footer-logo">Frontline AI</span>
+    <span class="footer-note">Gwinnett County, Georgia</span>
+  </div>
+</footer>
+
+<script>
+// ── CONFIGURATION ──────────────────────────────────────────
+// After setup, replace this with your Cloudflare Worker URL
+const WORKER_URL = "https://black-term-0ea7.hellofrontlineai.workers.dev";
+
+// Local rate limit as a backup (browser-side, 15 messages per session)
+let sessionCount = 0;
+const SESSION_LIMIT = 15;
+// ───────────────────────────────────────────────────────────
+
+const DC = {
+  barber:{name:"Status Cuts Barbershop",system:`You are a friendly receptionist assistant for Status Cuts Barbershop in Lawrenceville, Georgia. Be natural and conversational.\n\nHours: Tue–Fri 9am–7pm, Sat 8am–5pm, closed Sun/Mon\nPrices: Haircut $30, Fade $35, Lineup $20, Beard trim $25, Kid's cut $25\nBarbers: Marcus (fades), Devon (designs), Jay (kids)\nWalk-ins welcome, appointments get priority\nTo take a booking: get name, service, preferred barber, day/time\n\n2–3 sentences max. Always end with a clear next step.`,greeting:"Hey! Thanks for reaching out to Status Cuts. What can I help you with today?",sugs:["What are your hours?","I want to book a fade","How much is a haircut?","Do you take walk-ins?"]},
+  salon:{name:"Mila Nail Bar",system:`You are a warm receptionist assistant for Mila Nail Bar in Lawrenceville, Georgia.\n\nHours: Mon–Sat 10am–8pm, Sun 12pm–6pm\nServices: Full set $55+, Gel mani $40, Dip powder $50, Pedicure $45+, Gel-X $60, Nail art priced by design\nComplimentary drinks for all clients. Walk-ins welcome, appointments recommended weekends.\nTo book: name, service, preferred date/time\n\n2–3 sentences max. Always end with a helpful next step.`,greeting:"Hi! Welcome to Mila Nail Bar. How can I help you today?",sugs:["Price for a full set?","Can I book this weekend?","Do you do nail art?","What are your hours?"]},
+  hvac:{name:"Zen Air Heating & Cooling",system:`You are a professional receptionist assistant for Zen Air Heating & Cooling in Duluth, Georgia.\n\nHours: Mon–Fri 8am–8pm, Sat 8am–5pm\nServices: AC repair, heating repair, installation, maintenance, emergency service\nService area: Gwinnett County. Free estimates on installs. Financing available.\nUrgent (no heat/AC in extreme weather): get name and number immediately for callback within the hour.\nStandard: name, address, issue, preferred appointment window.\n\n2–3 sentences max. Always confirm next steps.`,greeting:"Thanks for contacting Zen Air! What's going on with your system today?",sugs:["My AC stopped working","Schedule a tune-up","How much is a new system?","Do you have emergency service?"]},
+  auto:{name:"Gwinnett Performance Auto",system:`You are a helpful receptionist assistant for Gwinnett Performance Auto in Lawrenceville, Georgia.\n\nHours: Mon–Fri 9am–6pm\nServices: Oil change $45–75, Brakes $150–350, Diagnostics $95, transmission, tires, general repair\nSpecializes in Nissan, Infiniti, Honda, Toyota. Free diagnostics with repair. Estimates before work.\nTo book: name, vehicle year/make/model, issue or service, preferred drop-off day.\n\n2–3 sentences max. Sound like a real shop person.`,greeting:"Hey, thanks for reaching out to Gwinnett Performance Auto! What's going on with your vehicle?",sugs:["My check engine light is on","I need an oil change","How much for brakes?","Can I drop off tomorrow?"]},
+  dental:{name:"Sugarloaf Smiles Dental",system:`You are a warm receptionist assistant for Sugarloaf Smiles Dental in Duluth, Georgia. Be reassuring — dental anxiety is real.\n\nHours: Mon 8am–3pm, Tue–Fri 7am–3pm\nServices: Cleanings, fillings, Invisalign (FREE consult), crowns, whitening, emergency visits\nAccepting new patients. Most major insurance accepted.\nNew patients: name, reason, insurance, preferred time.\nPain/emergency: get number for same-day callback.\nInvisalign: it's a free consultation — mention this clearly.\n\n2–3 sentences max. Never make patients feel judged.`,greeting:"Hi, thank you for contacting Sugarloaf Smiles! Are you a new or returning patient?",sugs:["I'm a new patient","Tell me about Invisalign","I have a toothache","Do you accept my insurance?"]}
+};
+
+let dbiz='barber', dhist=[], dbusy=false;
+
+function dgo(k,el){
+  dbiz=k; dhist=[];
+  document.querySelectorAll('.dtab').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('dbizname').textContent=DC[k].name;
+  document.getElementById('dchat').innerHTML='<div id="danc"></div>';
+  drsugs();
+  dins('ai','Receptionist',DC[k].greeting);
+}
+
+function drsugs(){
+  document.getElementById('dsugs').innerHTML=DC[dbiz].sugs
+    .map(s=>`<button class="sug" onclick="dusg(this.textContent)">${s}</button>`).join('');
+}
+
+function dusg(t){document.getElementById('dinp').value=t; dsend();}
+
+function dins(type,label,text){
+  const chat=document.getElementById('dchat');
+  const anc=document.getElementById('danc');
+  const d=document.createElement('div');
+  d.className='cm '+type;
+  d.innerHTML=`<div class="cl">${label}</div><div class="cb">${text.replace(/\n/g,'<br>')}</div>`;
+  chat.insertBefore(d,anc);
+  anc.scrollIntoView({behavior:'smooth'});
+}
+
+function dshowt(){
+  const chat=document.getElementById('dchat');
+  const anc=document.getElementById('danc');
+  const d=document.createElement('div');
+  d.id='dtd'; d.className='cm ai';
+  d.innerHTML='<div class="cl">Receptionist</div><div class="typing-row"><div class="td"></div><div class="td"></div><div class="td"></div></div>';
+  chat.insertBefore(d,anc);
+  anc.scrollIntoView({behavior:'smooth'});
+}
+function dhidet(){const e=document.getElementById('dtd'); if(e)e.remove();}
+
+function showRateLimit(){
+  document.getElementById('rate-msg').style.display='block';
+  document.getElementById('dinp').disabled=true;
+  document.getElementById('dsbtn').disabled=true;
+  document.getElementById('dsugs').innerHTML='';
+}
+
+async function dsend(){
+  if(dbusy) return;
+  const inp=document.getElementById('dinp');
+  const text=inp.value.trim();
+  if(!text) return;
+
+  // Browser-side rate limit check
+  if(sessionCount >= SESSION_LIMIT){ showRateLimit(); return; }
+
+  inp.value=''; inp.style.height='auto';
+  document.getElementById('dsugs').innerHTML='';
+  dins('user','You',text);
+  dhist.push({role:'user',content:text});
+  sessionCount++;
+  dbusy=true;
+  document.getElementById('dsbtn').disabled=true;
+  dshowt();
+
+  try{
+    const endpoint = WORKER_URL !== "PASTE_CLOUDFLARE_WORKER_URL_HERE"
+      ? WORKER_URL
+      : 'https://api.anthropic.com/v1/messages';
+
+    const headers = {'Content-Type':'application/json'};
+
+    const r = await fetch(endpoint, {
+      method:'POST',
+      headers,
+      body:JSON.stringify({
+        model:'claude-haiku-4-5-20251001',
+        max_tokens:300,
+        system:DC[dbiz].system,
+        messages:dhist
+      })
+    });
+
+    const data = await r.json();
+
+    if(r.status === 429){
+      dhidet();
+      showRateLimit();
+      return;
+    }
+
+    const reply = data.content?.[0]?.text || "Sorry, could you say that again?";
+    dhidet();
+    dins('ai','Receptionist',reply);
+    dhist.push({role:'assistant',content:reply});
+
+  } catch {
+    dhidet();
+    dins('ai','Receptionist',"Sorry, having a quick connection issue. Please try again.");
+  }
+
+  dbusy=false;
+  document.getElementById('dsbtn').disabled=false;
+}
+
+function dhk(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();dsend();}}
+function drs(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,80)+'px';}
+function ft(el){el.parentElement.classList.toggle('open');}
+
+async function submitForm(e){
+  e.preventDefault();
+  const btn=document.getElementById('form-btn');
+  btn.disabled=true;
+  btn.textContent='Sending...';
+  const form=document.getElementById('lead-form');
+  const data=new FormData(form);
+  try{
+    const r=await fetch(form.action,{method:'POST',body:data,headers:{'Accept':'application/json'}});
+    if(r.ok){
+      document.getElementById('fsuccess').style.display='block';
+      form.style.display='none';
+    } else {
+      btn.disabled=false;
+      btn.textContent='Send — we\'ll be in touch within a few hours';
+      alert('Something went wrong. Please try again or email us directly.');
+    }
+  } catch {
+    btn.disabled=false;
+    btn.textContent='Send — we\'ll be in touch within a few hours';
+    alert('Connection issue. Please try again.');
+  }
+}
+
+// Init
+dins('ai','Receptionist',DC['barber'].greeting);
+drsugs();
+</script>
+</body>
+</html>
