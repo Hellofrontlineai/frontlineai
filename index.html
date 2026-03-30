@@ -293,7 +293,7 @@ footer{border-top:1px solid var(--border);padding:28px 0;margin-top:0}
     <div class="contact-box">
       <div class="contact-title">Set up your assistant</div>
       <div class="contact-sub">Fill this out and we'll reach out same day, usually within the hour. Setup takes 48 hours once we have your business info.</div>
-      <form id="lead-form" onsubmit="submitForm(event)" action="https://formspree.io/f/xjgpyvdz" method="POST">
+      <form id="lead-form" onsubmit="submitForm(event)" action="PASTE_FORMSPREE_ENDPOINT_HERE" method="POST">
         <div class="field"><label>Your name *</label><input type="text" name="name" id="f-name" placeholder="John Smith" required></div>
         <div class="field"><label>Business name *</label><input type="text" name="business" id="f-biz" placeholder="Status Cuts Barbershop" required></div>
         <div class="field"><label>Best way to reach you *</label><input type="text" name="contact" id="f-contact" placeholder="Phone number or email" required></div>
@@ -323,14 +323,14 @@ footer{border-top:1px solid var(--border);padding:28px 0;margin-top:0}
 <footer>
   <div class="footer-inner">
     <span class="footer-logo">Frontline AI</span>
-    <span class="footer-note">Gwinnett County, Georgia</span>
+    <span class="footer-note">Serving local businesses nationwide</span>
   </div>
 </footer>
 
 <script>
 // ── CONFIGURATION ──────────────────────────────────────────
 // After setup, replace this with your Cloudflare Worker URL
-const WORKER_URL = "https://black-term-0ea7.hellofrontlineai.workers.dev";
+const WORKER_URL = "PASTE_CLOUDFLARE_WORKER_URL_HERE";
 
 // Local rate limit as a backup (browser-side, 15 messages per session)
 let sessionCount = 0;
